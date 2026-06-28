@@ -16,7 +16,9 @@ export const booksService = {
 
       const duplicateCheck = booksModel.checkDuplicate(book);
       if (duplicateCheck.exists) {
-        throw new BadRequestError(duplicateCheck.message || 'Book already exists');
+        throw new BadRequestError(
+          duplicateCheck.message || 'Book already exists'
+        );
       }
     });
 

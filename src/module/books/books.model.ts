@@ -15,17 +15,24 @@ interface CountResult {
 }
 
 export const booksModel = {
-  checkDuplicate: (data: CreateBookDTO): { exists: boolean; message?: string } => {
+  checkDuplicate: (
+    data: CreateBookDTO
+  ): { exists: boolean; message?: string } => {
     if (data.isbn) {
-      const isbnCheck = db.query('SELECT id FROM books WHERE isbn = ?').all(data.isbn) as Array<{ id: number }>;
+      const isbnCheck = db
+        .query('SELECT id FROM books WHERE isbn = ?')
+        .all(data.isbn) as Array<{ id: number }>;
       if (isbnCheck && isbnCheck.length > 0) {
-        return { exists: true, message: `Book with ISBN ${data.isbn} already exists` };
+        return {
+          exists: true,
+          message: `Book with ISBN ${data.isbn} already exists`,
+        };
       }
     }
 
-    const titleAuthorCheck = db.query(
-      'SELECT id FROM books WHERE title = ? AND author = ?'
-    ).all(data.title, data.author) as Array<{ id: number }>;
+    const titleAuthorCheck = db
+      .query('SELECT id FROM books WHERE title = ? AND author = ?')
+      .all(data.title, data.author) as Array<{ id: number }>;
 
     if (titleAuthorCheck && titleAuthorCheck.length > 0) {
       return {
