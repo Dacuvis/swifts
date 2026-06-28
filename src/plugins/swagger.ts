@@ -10,8 +10,8 @@ export const docsRoute = new Elysia().use(
         version: '1.0.0',
         description: 'REST API untuk mengelola data buku.',
         contact: {
-          name: 'Rayyan Irfansya',
-          email: 'rayyan@example.com',
+          name: 'Rayyan Pillager',
+          email: 'rayfem24@gmail.com',
         },
         license: {
           name: 'MIT',

@@ -13,6 +13,11 @@ export const booksService = {
       if (book.stock < 0) {
         throw new BadRequestError('Stock must be greater than or equal to 0');
       }
+
+      const duplicateCheck = booksModel.checkDuplicate(book);
+      if (duplicateCheck.exists) {
+        throw new BadRequestError(duplicateCheck.message || 'Book already exists');
+      }
     });
 
     return booksModel.create(data);
