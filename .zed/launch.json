@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "bun",
+      "name": "Debug Books API",
+      "request": "launch",
+      "runtimeExecutable": "bun",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "${workspaceRoot}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}

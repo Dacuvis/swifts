@@ -1,0 +1,26 @@
+[
+  {
+    "label": "bun: dev",
+    "command": "bun",
+    "args": ["run", "dev"],
+    "cwd": "${workspaceRoot}"
+  },
+  {
+    "label": "bun: build",
+    "command": "bun",
+    "args": ["run", "build"],
+    "cwd": "${workspaceRoot}"
+  },
+  {
+    "label": "bun: test",
+    "command": "bun",
+    "args": ["run", "test"],
+    "cwd": "${workspaceRoot}"
+  },
+  {
+    "label": "bun: install",
+    "command": "bun",
+    "args": ["install"],
+    "cwd": "${workspaceRoot}"
+  }
+]

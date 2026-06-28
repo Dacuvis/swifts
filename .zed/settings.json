@@ -1,0 +1,18 @@
+{
+  "languages": {
+    "TypeScript": {
+      "tab_size": 2,
+      "hard_tabs": false
+    },
+    "JSON": {
+      "tab_size": 2
+    }
+  },
+  "format_on_save": "on",
+  "indent_guides": {
+    "enabled": true
+  },
+  "git": {
+    "enabled": true
+  }
+}
