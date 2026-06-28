@@ -7,6 +7,7 @@ Thank you for your interest in contributing to our Books API project! We're exci
 ### Reporting Issues
 
 If you find a bug or have a suggestion for improvement, please open an issue on GitHub with:
+
 - A clear title and description
 - Steps to reproduce (for bugs)
 - Expected vs actual behavior
@@ -15,17 +16,20 @@ If you find a bug or have a suggestion for improvement, please open an issue on 
 ### Making Changes
 
 1. **Fork the repository**
+
    ```bash
    git clone https://github.com/yourusername/books-api.git
    cd books-api
    ```
 
 2. **Create a feature branch**
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
 
 3. **Install dependencies and start development**
+
    ```bash
    bun install
    bun run dev

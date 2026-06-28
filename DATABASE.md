@@ -24,17 +24,17 @@ CREATE TABLE IF NOT EXISTS books (
 
 **Columns:**
 
-| Column | Type | Description |
-|--------|------|-------------|
-| `id` | INTEGER | Primary key, auto-incremented |
-| `title` | TEXT | Book title (required) |
-| `author` | TEXT | Author name (required) |
-| `publisher` | TEXT | Publisher name (required) |
-| `isbn` | TEXT | ISBN number (optional) |
-| `category` | TEXT | Book category (required) |
-| `description` | TEXT | Book description (optional) |
-| `published_year` | INTEGER | Year of publication (required) |
-| `stock` | INTEGER | Number of books in stock (default: 0) |
+| Column           | Type    | Description                           |
+| ---------------- | ------- | ------------------------------------- |
+| `id`             | INTEGER | Primary key, auto-incremented         |
+| `title`          | TEXT    | Book title (required)                 |
+| `author`         | TEXT    | Author name (required)                |
+| `publisher`      | TEXT    | Publisher name (required)             |
+| `isbn`           | TEXT    | ISBN number (optional)                |
+| `category`       | TEXT    | Book category (required)              |
+| `description`    | TEXT    | Book description (optional)           |
+| `published_year` | INTEGER | Year of publication (required)        |
+| `stock`          | INTEGER | Number of books in stock (default: 0) |
 
 ## Initialization
 
@@ -59,6 +59,7 @@ bun run db:init
 ### Create Books
 
 **Single book:**
+
 ```javascript
 POST /books
 {
@@ -74,6 +75,7 @@ POST /books
 ```
 
 **Batch (multiple books):**
+
 ```javascript
 POST /books
 [
@@ -85,16 +87,19 @@ POST /books
 ### Read Books
 
 **Get all books:**
+
 ```javascript
-GET /books
+GET / books;
 ```
 
 **Search by title:**
+
 ```javascript
 GET /books?title=gatsby
 ```
 
 **Get specific book:**
+
 ```javascript
 GET /books/:id
 ```

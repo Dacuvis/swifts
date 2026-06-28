@@ -1,5 +1,5 @@
-import { Database } from "bun:sqlite";
+import { Database } from 'bun:sqlite';
 
-export const db = new Database("database.sqlite", {
-    create: true
+export const db = new Database('database.sqlite', {
+  create: true,
 });

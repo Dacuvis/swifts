@@ -47,6 +47,7 @@ bun run dev
 ## Example Requests
 
 **Create a single book:**
+
 ```json
 POST /books
 {
@@ -62,6 +63,7 @@ POST /books
 ```
 
 **Create multiple books:**
+
 ```json
 POST /books
 [
