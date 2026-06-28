@@ -6,9 +6,9 @@ import { rateLimit } from "elysia-rate-limit";
 import { docsRoute } from "./plugins/swagger";
 import { booksRouter } from "./module/books/books.route";
 
-initDatabase()
+initDatabase();
 
-const app = new Elysia()
+void new Elysia()
   .use(logger())
   .use(cors())
   .use(rateLimit({
@@ -20,4 +20,3 @@ const app = new Elysia()
   .listen(3000, () => {
     console.log("Server is running on port 3000");
   });
-

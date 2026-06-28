@@ -1,5 +1,5 @@
 import { booksModel } from "./books.model";
-import type { CreateBookDTO, UpdateBookDTO } from "./books.type";
+import type { CreateBookDTO, UpdateBookDTO, PaginationParams } from "./books.type";
 import { BadRequestError } from "../../error/bad-request";
 
 export const booksService = {
@@ -14,16 +14,16 @@ export const booksService = {
     return booksModel.create(data);
   },
 
-  findAll: (query: { title?: string }) => {
-    return booksModel.findAll(query);
+  findAll: (query: { title?: string }, pagination?: PaginationParams) => {
+    return booksModel.findAll(query, pagination);
   },
 
-  findById: (id: number) => {
-    const book = booksModel.findById(id);
-    if (!book) {
+  findById: (id: number, pagination?: PaginationParams) => {
+    const result = booksModel.findById(id, pagination);
+    if (!result.data || result.data.length === 0) {
       throw new BadRequestError("Book not found");
     }
-    return book;
+    return result;
   },
 
   update: (id: number, data: UpdateBookDTO) => {
@@ -32,17 +32,18 @@ export const booksService = {
     }
 
     const existing = booksModel.findById(id);
-    if (!existing) {
+    if (!existing || existing.data.length === 0) {
       throw new BadRequestError("Book not found");
     }
 
     booksModel.update(id, data);
-    return booksModel.findById(id);
+    const result = booksModel.findById(id);
+    return result.data[0];
   },
 
   delete: (id: number) => {
     const existing = booksModel.findById(id);
-    if (!existing) {
+    if (!existing || existing.data.length === 0) {
       throw new BadRequestError("Book not found");
     }
     booksModel.delete(id);

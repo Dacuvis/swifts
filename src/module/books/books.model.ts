@@ -1,5 +1,13 @@
 import { db } from "../../config/database";
-import type { CreateBookDTO, UpdateBookDTO } from "./books.type";
+import type { CreateBookDTO, UpdateBookDTO, PaginationParams, PaginatedResponse } from "./books.type";
+
+interface Book extends CreateBookDTO {
+  id: number;
+}
+
+interface CountResult {
+  total: number;
+}
 
 export const booksModel = {
   create: (data: CreateBookDTO | CreateBookDTO[]) => {
@@ -10,62 +18,106 @@ export const booksModel = {
     });
   },
 
-  findAll: (query: { title?: string }) => {
-    const { title } = query
-    let sql = "SELECT * FROM books"
-    let params: any[] = []
+  findAll: (query: { title?: string }, pagination?: PaginationParams): PaginatedResponse<Book> => {
+    const page = Math.max(1, pagination?.page || 1);
+    const limit = Math.max(1, Math.min(pagination?.limit || 10, 100));
+    const offset = (page - 1) * limit;
+
+    let sql = "SELECT * FROM books";
+    let countSql = "SELECT COUNT(*) as total FROM books";
+    const params: (string | number)[] = [];
 
     if (query.title) {
         sql += " WHERE title LIKE ?";
+        countSql += " WHERE title LIKE ?";
         params.push(`%${query.title}%`);
     }
 
-    return db.query(sql).all(...params)
+    const totalResult = db.query(countSql).all(...params) as CountResult[];
+    const total = totalResult && totalResult.length ? totalResult[0].total : 0;
+    const totalPages = Math.ceil(total / limit);
+
+    sql += " LIMIT ? OFFSET ?";
+    params.push(limit, offset);
+
+    const data = db.query(sql).all(...params) as Book[];
+
+    return {
+      data: data || [],
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages
+      }
+    };
   },
 
-  findById: (id: number) => {
-    const sql = "SELECT * FROM books WHERE id = ?"
-    const rows = db.query(sql).all(id)
-    return rows && rows.length ? rows[0] : undefined
+  findById: (id: number, pagination?: PaginationParams): PaginatedResponse<Book> => {
+    const page = Math.max(1, pagination?.page || 1);
+    const limit = Math.max(1, Math.min(pagination?.limit || 10, 100));
+
+    const sql = "SELECT * FROM books WHERE id = ?";
+    const rows = db.query(sql).all(id) as Book[];
+    
+    const book = rows && rows.length ? rows[0] : undefined;
+    
+    return {
+      data: book ? [book] : [],
+      pagination: {
+        page,
+        limit,
+        total: book ? 1 : 0,
+        totalPages: book ? 1 : 0
+      }
+    };
   },
 
   update: (id: number, data: UpdateBookDTO) => {
-    const fields: string[] = []
-    const params: any[] = []
+    const fields: string[] = [];
+    const params: (string | number | null)[] = [];
 
     if (data.title !== undefined) {
-      fields.push("title = ?"); params.push(data.title)
+      fields.push("title = ?");
+      params.push(data.title);
     }
     if (data.author !== undefined) {
-      fields.push("author = ?"); params.push(data.author)
+      fields.push("author = ?");
+      params.push(data.author);
     }
     if (data.publisher !== undefined) {
-      fields.push("publisher = ?"); params.push(data.publisher)
+      fields.push("publisher = ?");
+      params.push(data.publisher);
     }
     if (data.isbn !== undefined) {
-      fields.push("isbn = ?"); params.push(data.isbn ?? null)
+      fields.push("isbn = ?");
+      params.push(data.isbn ?? null);
     }
     if (data.category !== undefined) {
-      fields.push("category = ?"); params.push(data.category)
+      fields.push("category = ?");
+      params.push(data.category);
     }
     if (data.description !== undefined) {
-      fields.push("description = ?"); params.push(data.description ?? null)
+      fields.push("description = ?");
+      params.push(data.description ?? null);
     }
     if (data.publishedYear !== undefined) {
-      fields.push("published_year = ?"); params.push(data.publishedYear)
+      fields.push("published_year = ?");
+      params.push(data.publishedYear);
     }
     if (data.stock !== undefined) {
-      fields.push("stock = ?"); params.push(data.stock)
+      fields.push("stock = ?");
+      params.push(data.stock);
     }
 
     if (fields.length === 0) return;
 
-    params.push(id)
-    const sql = `UPDATE books SET ${fields.join(", ")} WHERE id = ?`
-    db.run(sql, params)
+    params.push(id);
+    const sql = `UPDATE books SET ${fields.join(", ")} WHERE id = ?`;
+    db.run(sql, params);
   },
 
   delete: (id: number) => {
-    db.run("DELETE FROM books WHERE id = ?", [id])
+    db.run("DELETE FROM books WHERE id = ?", [id]);
   }
-}
+};

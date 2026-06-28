@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "oven.bun-vscode",
+    "PKief.material-icon-theme",
+    "ms-vscode.vscode-typescript-next",
+    "GitHub.copilot",
+    "httpYac.httpYac"
+  ]
+}
